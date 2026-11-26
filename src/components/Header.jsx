@@ -1,6 +1,16 @@
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 function Header() {
+  const [oscuro, setOscuro] = useState(
+    () => localStorage.getItem("tema") === "oscuro"
+  );
+
+  useEffect(() => {
+    document.body.classList.toggle("oscuro", oscuro);
+    localStorage.setItem("tema", oscuro ? "oscuro" : "claro");
+  }, [oscuro]);
+
   return (
     <header>
       <div className="contenedor">
@@ -33,8 +43,13 @@ function Header() {
               </button>
             </li>
             <li>
-              <button className="btn-tema" type="button" aria-label="Activar modo oscuro">
-                <i className="fa-solid fa-moon"></i>
+              <button
+                className="btn-tema"
+                type="button"
+                onClick={() => setOscuro(!oscuro)}
+                aria-label={oscuro ? "Activar modo claro" : "Activar modo oscuro"}
+              >
+                <i className={oscuro ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
               </button>
             </li>
           </ul>
